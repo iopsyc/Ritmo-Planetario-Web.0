@@ -21,6 +21,23 @@
       max-width: 300px;
       z-index: 10;
     }
+    #datos-nasa {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.6);
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 300px;
+      z-index: 10;
+    }
+    #datos-nasa a {
+      color: #88ffcc;
+      text-decoration: none;
+    }
+    #datos-nasa ul {
+      padding-left: 1.2rem;
+    }
     #enlace {
       position: absolute;
       bottom: 1rem;
@@ -46,11 +63,22 @@
     <p>Estás viajando por el campo energético del nodo sagrado</p>
     <p>Observa la espiral viva... siente su latido...</p>
   </div>
+  <div id="datos-nasa">
+    <h3>📊 Datos Referenciados</h3>
+    <ul style="line-height: 1.5;">
+      <li><a href="https://daac.ornl.gov/CMS/guides/LiDAR_Forest_Inventory_Brazil.html" target="_blank">NASA CMS: Inventario LIDAR Brasil</a></li>
+      <li><a href="https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1644" target="_blank">Dataset 1644 – Biomasa Amazonía</a></li>
+      <li><a href="amazon_npp_clean.csv" target="_blank">📁 Descargar CSV Amazonía</a></li>
+      <li><a href="alaska_npp_clean.csv" target="_blank">📁 Descargar CSV Alaska</a></li>
+    </ul>
+  </div>
   <div id="enlace">
     <a href="index.html">🔙 Volver a la página principal</a>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://threejs.org/examples/js/loaders/FontLoader.js"></script>
+  <script src="https://threejs.org/examples/js/geometries/TextGeometry.js"></script>
   <script>
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -86,10 +114,10 @@
     const loader = new THREE.FontLoader();
     loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
       const glifoData = [
-        { text: '🜂', color: 0xff6600, y: 3, radius: 4 },
-        { text: '🜁', color: 0x66ccff, y: 1, radius: 5 },
-        { text: '🜃', color: 0x996633, y: -1, radius: 4.5 },
-        { text: '🜄', color: 0x3399cc, y: -3, radius: 4.2 },
+        { text: '🔂', color: 0xff6600, y: 3, radius: 4 },
+        { text: '🔁', color: 0x66ccff, y: 1, radius: 5 },
+        { text: '🔃', color: 0x996633, y: -1, radius: 4.5 },
+        { text: '🔄', color: 0x3399cc, y: -3, radius: 4.2 },
       ];
       glifoData.forEach((data, index) => {
         const geometry = new THREE.TextGeometry(data.text, {
