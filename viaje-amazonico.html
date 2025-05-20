@@ -21,6 +21,20 @@
       max-width: 300px;
       z-index: 10;
     }
+    #enlace {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      z-index: 11;
+      background: rgba(0,0,0,0.7);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    #enlace a {
+      color: #88ffcc;
+      text-decoration: none;
+    }
     canvas {
       display: block;
     }
@@ -32,6 +46,9 @@
     <p>Estás viajando por el campo energético del nodo sagrado</p>
     <p>Observa la espiral viva... siente su latido...</p>
   </div>
+  <div id="enlace">
+    <a href="index.html">🔙 Volver a la página principal</a>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
@@ -41,37 +58,53 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Resize responsive
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Nebulosa amazónica
     scene.background = new THREE.Color(0x000000);
-    let fogColor = new THREE.Color(0x223322);
-    scene.fog = new THREE.Fog(fogColor, 5, 30);
+    scene.fog = new THREE.Fog(new THREE.Color(0x223322), 5, 30);
 
-    // Espiral viva
     const spiralGeometry = new THREE.TorusKnotGeometry(1.5, 0.2, 300, 16);
     const spiralMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff88, emissive: 0x004422, metalness: 0.6, roughness: 0.3 });
     const spiral = new THREE.Mesh(spiralGeometry, spiralMaterial);
     spiral.position.y = 1.5;
     scene.add(spiral);
 
-    // Luz viva
     const pointLight = new THREE.PointLight(0xffffff, 1);
     pointLight.position.set(5, 5, 5);
     scene.add(pointLight);
 
-    // Luz ambiental tenue
     const ambientLight = new THREE.AmbientLight(0x223322);
     scene.add(ambientLight);
 
     camera.position.set(0, 1.5, 8);
 
-    // Movimiento orbital
+    const glifos = [];
+    const loader = new THREE.FontLoader();
+    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+      const glifoData = [
+        { text: '🜂', color: 0xff6600, y: 3, radius: 4 },
+        { text: '🜁', color: 0x66ccff, y: 1, radius: 5 },
+        { text: '🜃', color: 0x996633, y: -1, radius: 4.5 },
+        { text: '🜄', color: 0x3399cc, y: -3, radius: 4.2 },
+      ];
+      glifoData.forEach((data, index) => {
+        const geometry = new THREE.TextGeometry(data.text, {
+          font: font,
+          size: 0.6,
+          height: 0.05
+        });
+        const material = new THREE.MeshBasicMaterial({ color: data.color });
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.y = data.y;
+        scene.add(mesh);
+        glifos.push({ mesh, radius: data.radius, speed: 0.0012 + index * 0.0005 });
+      });
+    });
+
     function animate() {
       requestAnimationFrame(animate);
       spiral.rotation.x += 0.005;
@@ -79,6 +112,13 @@
       camera.position.x = 8 * Math.sin(Date.now() * 0.0003);
       camera.position.z = 8 * Math.cos(Date.now() * 0.0003);
       camera.lookAt(spiral.position);
+
+      glifos.forEach((g, i) => {
+        const angle = Date.now() * g.speed;
+        g.mesh.position.x = g.radius * Math.cos(angle);
+        g.mesh.position.z = g.radius * Math.sin(angle);
+      });
+
       renderer.render(scene, camera);
     }
 
