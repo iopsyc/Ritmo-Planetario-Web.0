@@ -19,6 +19,10 @@
       padding: 1rem;
       border-radius: 8px;
       max-width: 300px;
+      z-index: 10;
+    }
+    canvas {
+      display: block;
     }
   </style>
 </head>
@@ -33,9 +37,16 @@
   <script>
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    let renderer = new THREE.WebGLRenderer();
+    let renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    // Resize responsive
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
     // Nebulosa amazónica
     scene.background = new THREE.Color(0x000000);
