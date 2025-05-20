@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🌿 Visión Cuántica del Nodo Amazonas</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+    }
+    #overlay {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(0,0,0,0.6);
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div id="overlay">
+    <h2>🌿 Nodo Amazonas: Visión Cuántica</h2>
+    <p>Estás viajando por el campo energético del nodo sagrado</p>
+    <p>Observa la espiral viva... siente su latido...</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Nebulosa amazónica
+    scene.background = new THREE.Color(0x000000);
+    let fogColor = new THREE.Color(0x223322);
+    scene.fog = new THREE.Fog(fogColor, 5, 30);
+
+    // Espiral viva
+    const spiralGeometry = new THREE.TorusKnotGeometry(1.5, 0.2, 300, 16);
+    const spiralMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff88, emissive: 0x004422, metalness: 0.6, roughness: 0.3 });
+    const spiral = new THREE.Mesh(spiralGeometry, spiralMaterial);
+    spiral.position.y = 1.5;
+    scene.add(spiral);
+
+    // Luz viva
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    // Luz ambiental tenue
+    const ambientLight = new THREE.AmbientLight(0x223322);
+    scene.add(ambientLight);
+
+    camera.position.set(0, 1.5, 8);
+
+    // Movimiento orbital
+    function animate() {
+      requestAnimationFrame(animate);
+      spiral.rotation.x += 0.005;
+      spiral.rotation.y += 0.008;
+      camera.position.x = 8 * Math.sin(Date.now() * 0.0003);
+      camera.position.z = 8 * Math.cos(Date.now() * 0.0003);
+      camera.lookAt(spiral.position);
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
